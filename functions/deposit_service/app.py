@@ -23,11 +23,11 @@ def lambda_handler(event, context):
         dict: Object containing details of the stock selling transaction
     """
     # Get the price of the stock provided as input
-    stock_price = event["stock_price"]
+    amount_to_transfer = event["amount_to_transfer"]
     # Mocked result of a stock selling transaction
     transaction_result = {
         "id": str(uuid4()),  # Unique ID for the transaction
-        "price": str(stock_price),  # Price of each share
+        "price": str(amount_to_transfer),  # Price of each share
         "type": "sell",  # Type of transaction (buy/sell)
         "qty": str(
             randint(1, 10)

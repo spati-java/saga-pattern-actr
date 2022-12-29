@@ -1,10 +1,10 @@
 {
     "Comment": "A state machine that does mock stock trading.",
-    "StartAt": "Check Stock Value",
+    "StartAt": "Check Balance in Chase Bank",
     "States": {
-        "Check Stock Value": {
+        "Check Balance in Chase Bank": {
             "Type": "Task",
-            "Resource": "${StockCheckerFunctionArn}",
+            "Resource": "${BalanceCheckingServiceFunctionArn}",
             "Retry": [
                 {
                     "ErrorEquals": [
@@ -15,22 +15,26 @@
                     "BackoffRate": 1.5
                 }
             ],
-            "Next": "Buy or Sell?"
+            "Next": "Enough Balance ??"
         },
-        "Buy or Sell?": {
+        "Enough Balance ??": {
             "Type": "Choice",
             "Choices": [
                 {
-                    "Variable": "$.stock_price",
-                    "NumericLessThanEquals": 50,
-                    "Next": "Buy Stock"
+                    "Variable": "$.amount_to_transfer",
+                    "NumericGreaterThanEquals": 100,
+                    "Next": "Withdraw Cash"
                 }
             ],
-            "Default": "Sell Stock"
+            "Default": "Pass"
         },
-        "Sell Stock": {
+        "Pass": {
+      "Type": "Pass",
+      "End": true
+    },
+        "Withdraw Cash": {
             "Type": "Task",
-            "Resource": "${StockSellerFunctionArn}",
+            "Resource": "${WithdrawalServiceFunctionArn}",
             "Retry": [
                 {
                     "ErrorEquals": [
@@ -41,11 +45,11 @@
                     "BackoffRate": 1
                 }
             ],
-            "Next": "Record Transaction"
+            "Next": "Deposit Cash into bank Of America"
         },
-        "Buy Stock": {
+        "Deposit Cash into bank Of America": {
             "Type": "Task",
-            "Resource": "${StockBuyerFunctionArn}",
+            "Resource": "${DepositServiceFunctionArn}",
             "Retry": [
                 {
                     "ErrorEquals": [
@@ -56,42 +60,7 @@
                     "BackoffRate": 1
                 }
             ],
-            "Next": "Record Transaction"
-        },
-        "Record Transaction": {
-            "Type": "Task",
-            "Resource": "${DDBPutItem}",
-            "Parameters": {
-                "TableName": "${DDBTable}",
-                "Item": {
-                    "Id": {
-                        "S.$": "$.id"
-                    },
-                    "Type": {
-                        "S.$": "$.type"
-                    },
-                    "Price": {
-                        "N.$": "$.price"
-                    },
-                    "Quantity": {
-                        "N.$": "$.qty"
-                    },
-                    "Timestamp": {
-                        "S.$": "$.timestamp"
-                    }
-                }
-            },
-            "Retry": [
-                {
-                    "ErrorEquals": [
-                        "States.TaskFailed"
-                    ],
-                    "IntervalSeconds": 20,
-                    "MaxAttempts": 5,
-                    "BackoffRate": 10
-                }
-            ],
-            "End": true
+             "End": true
         }
     }
 }
