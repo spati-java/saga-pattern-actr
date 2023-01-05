@@ -2,24 +2,20 @@ from random import randint
 
 
 def lambda_handler(event, context):
-    """Sample Lambda function which mocks the operation of checking the current price 
-    of a stock.
+    id = event["id"]
+    source_account = event["source_account"]
+    amount_to_transfer = event["amount"]
+    destination_account = event["destination_account"]
+    # Withdraw the money from the source account
+    # response =  api call to the source account (chase bank, assuming this was a success)
 
-    For demonstration purposes this Lambda function simply returns 
-    a random integer between 0 and 100 as the stock price.
+    # geenerate the response event  for the next service to pick
+    transfer_request_event = {
+        "id": id,
+        "amount": str(amount_to_transfer),
+        "destination_account": str(destination_account),
+        "timestamp": event['timestamp'],
+        "status": "200"
+    }
 
-    Parameters
-    ----------
-    event: dict, required
-        Input event to the Lambda function
-
-    context: object, required
-        Lambda Context runtime methods and attributes
-
-    Returns
-    ------
-        dict: Object containing the current price of the stock
-    """
-    # Check current price of the stock
-    amount_to_transfer = 100
-    return {"amount_to_transfer": amount_to_transfer}
+    return transfer_request_event

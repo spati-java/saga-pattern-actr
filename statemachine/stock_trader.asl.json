@@ -1,8 +1,8 @@
 {
-    "Comment": "A state machine that does mock stock trading.",
-    "StartAt": "Check Balance in Chase Bank",
+    "Comment": "A state machine to transfer money between chase bank and bank of america using Saga Pattern and Serverless technologies ",
+    "StartAt": "Check balance",
     "States": {
-        "Check Balance in Chase Bank": {
+        "Check balance": {
             "Type": "Task",
             "Resource": "${BalanceCheckingServiceFunctionArn}",
             "Retry": [
@@ -15,24 +15,9 @@
                     "BackoffRate": 1.5
                 }
             ],
-            "Next": "Enough Balance ??"
-        },
-        "Enough Balance ??": {
-            "Type": "Choice",
-            "Choices": [
-                {
-                    "Variable": "$.amount_to_transfer",
-                    "NumericGreaterThanEquals": 100,
-                    "Next": "Withdraw Cash"
-                }
-            ],
-            "Default": "Pass"
-        },
-        "Pass": {
-      "Type": "Pass",
-      "End": true
+            "Next": "Withdraw Money"
     },
-        "Withdraw Cash": {
+        "Withdraw Money": {
             "Type": "Task",
             "Resource": "${WithdrawalServiceFunctionArn}",
             "Retry": [

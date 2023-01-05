@@ -8,24 +8,24 @@ architecture = "x86_64"
 handler = "app.lambda_handler"
 manifest_hash = ""
 packagetype = "Zip"
-functions = ["BalanceCheckingServiceFunction"]
+functions = ["WithdrawalServiceFunction"]
 
-[function_build_definitions.04f52654-3c02-4f1f-90c4-75b270465b4e]
+[function_build_definitions.2b57d022-cdf1-46a0-849c-7d0cc2e68d20]
 codeuri = "/Users/spati/Workspace/sam-project/saga-pattern-example-account-transfer/functions/deposit_service"
 runtime = "python3.9"
 architecture = "x86_64"
 handler = "app.lambda_handler"
 manifest_hash = ""
 packagetype = "Zip"
-functions = ["WithdrawalServiceFunction"]
+functions = ["DepositServiceFunction"]
 
-[function_build_definitions.e4ca0670-7934-4a15-967c-98bd1ba5b507]
+[function_build_definitions.deb1167b-d313-46b6-807b-a10d06b057e1]
 codeuri = "/Users/spati/Workspace/sam-project/saga-pattern-example-account-transfer/functions/balance_checking_service"
 runtime = "python3.9"
 architecture = "x86_64"
 handler = "app.lambda_handler"
 manifest_hash = ""
 packagetype = "Zip"
-functions = ["DepositServiceFunction"]
+functions = ["BalanceCheckingServiceFunction"]
 
 [layer_build_definitions]

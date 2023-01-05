@@ -43,7 +43,7 @@ Resources:
   BalanceCheckingServiceFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
     Properties:
-      CodeUri: functions/withdrawal_service/
+      CodeUri: functions/balance_checking_service/
       Handler: app.lambda_handler
       Runtime: python3.9
       Architectures:
@@ -52,7 +52,7 @@ Resources:
   WithdrawalServiceFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: functions/deposit_service/
+      CodeUri: functions/withdrawal_service/
       Handler: app.lambda_handler
       Runtime: python3.9
       Architectures:
@@ -61,7 +61,7 @@ Resources:
   DepositServiceFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: functions/balance_checking_service/
+      CodeUri: functions/deposit_service/
       Handler: app.lambda_handler
       Runtime: python3.9
       Architectures:

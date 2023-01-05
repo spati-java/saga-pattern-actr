@@ -4,34 +4,19 @@ from uuid import uuid4
 
 
 def lambda_handler(event, context):
-    """Sample Lambda function which mocks the operation of buying a random number
-    of shares for a stock.
+    source_account = event["source_account"]
+    amount_to_transfer = event["amount"]
+    destination_account = event["destination_account"]
+    # Withdraw the money from the source account
+    # response =  api call to the source account (chase bank, assuming this was a success)
 
-    For demonstration purposes, this Lambda function does not actually perform any 
-    actual transactions. It simply returns a mocked result.
-
-    Parameters
-    ----------
-    event: dict, required
-        Input event to the Lambda function
-
-    context: object, required
-        Lambda Context runtime methods and attributes
-
-    Returns
-    ------
-        dict: Object containing details of the stock buying transaction
-    """
-    # Get the price of the stock provided as input
-    amount_to_transfer = event["amount_to_transfer"]
-    # Mocked result of a stock buying transaction
-    transaction_result = {
-        "id": str(uuid4()),  # Unique ID for the transaction
-        "price": str(amount_to_transfer),  # Price of each share
-        "type": "buy",  # Type of transaction (buy/sell)
-        "qty": str(
-            1
-        ),  # Number of shares bought/sold (We are mocking this as a random integer between 1 and 10)
-        "timestamp": datetime.now().isoformat(),  # Timestamp of the when the transaction was completed
+    transfer_request_event = {
+        "id": str(uuid4()),
+        "amount": str(amount_to_transfer),
+        "destination_account": str(destination_account),
+        "source_account": str(source_account),
+        "timestamp": datetime.now().isoformat(),
+        "status": "200"
     }
-    return transaction_result
+
+    return transfer_request_event
