@@ -9,7 +9,11 @@ def lambda_handler(event, context):
     # Withdraw the money from the source account
     # response =  api call to the source account (chase bank, assuming this was a success)
 
-    # geenerate the response event  for the next service to pick
+    response_status = 502
+
+    if response_status != 200:
+        raise Exception("Failed to withdraw money")
+
     transfer_request_event = {
         "id": id,
         "amount": str(amount_to_transfer),

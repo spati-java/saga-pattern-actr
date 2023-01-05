@@ -15,8 +15,15 @@
                     "BackoffRate": 1.5
                 }
             ],
-            "Next": "Withdraw Money"
-    },
+            "Next": "Withdraw Money",
+            "Catch": [
+                {
+                    "ErrorEquals": ["Lambda.ServiceException"],
+                    "ResultPath": "$.error",
+                    "Next": "Compensation"
+                }
+            ]
+        },
         "Withdraw Money": {
             "Type": "Task",
             "Resource": "${WithdrawalServiceFunctionArn}",
@@ -30,9 +37,16 @@
                     "BackoffRate": 1
                 }
             ],
-            "Next": "Deposit Cash into bank Of America"
+            "Next": "Deposit Money",
+            "Catch": [
+                {
+                    "ErrorEquals": ["Lambda.ServiceException"],
+                    "ResultPath": "$.error",
+                    "Next": "Compensation"
+                }
+            ]
         },
-        "Deposit Cash into bank Of America": {
+        "Deposit Money": {
             "Type": "Task",
             "Resource": "${DepositServiceFunctionArn}",
             "Retry": [
@@ -45,7 +59,19 @@
                     "BackoffRate": 1
                 }
             ],
-             "End": true
+            "Catch": [
+                {
+                    "ErrorEquals": ["Lambda.ServiceException"],
+                    "ResultPath": "$.error",
+                    "Next": "Compensation"
+                }
+            ],
+            "End": true
+        },
+        "Compensation": {
+            "Type": "Task",
+            "Resource": "${CompensationServiceFunctionArn}",
+            "End": true
         }
     }
 }

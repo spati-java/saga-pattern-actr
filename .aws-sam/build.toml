@@ -28,4 +28,13 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["BalanceCheckingServiceFunction"]
 
+[function_build_definitions.e11f1bca-7acd-48a7-aee7-703410a19d44]
+codeuri = "/Users/spati/Workspace/sam-project/saga-pattern-example-account-transfer/functions/compensation_service"
+runtime = "python3.9"
+architecture = "x86_64"
+handler = "app.lambda_handler"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["CompensationServiceFunction"]
+
 [layer_build_definitions]
