@@ -10,7 +10,7 @@ def lambda_handler(event, context):
     # Mocked result of a stock selling transaction
     # make an api call to the bank of america using the amount to transfer
 
-    response_status = 200
+    response_status = 300
     if response_status != 200:
         raise Exception("Failed to deposit money")
 
@@ -19,7 +19,7 @@ def lambda_handler(event, context):
         "amount": str(amount),
         "destination_account": str(destination_account),
         "timestamp": event['timestamp'],
-        "status": "200",
+        "status": response_status,
         "message": "Transaction Succeeded"
     }
     print(transfer_request_event)

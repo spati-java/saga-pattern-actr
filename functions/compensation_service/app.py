@@ -1,41 +1,39 @@
 from datetime import datetime
 from random import randint
 from uuid import uuid4
+import json
 
 
 def rollback_withdrawal(account_id, amount):
-    # Implement the rollback logic for the withdrawal service here
-    pass
+    return 'Failed to deposit so money successfully return to the source-account'
 
 
 def rollback_deposit(account_id, amount):
-    # Implement the rollback logic for the deposit service here
+    # Nothing to do since deposit was not success
+    # But can do things in case deposit was success but some other reasons the deposit needs to be rolled back
     pass
 
 
 def compensation(event, context):
-    success = event['message']
-    if success == 'Transaction Succeeded':
-        return
+    error = event['error']['Cause']
+    error_json = json.loads(error)
+    message = error_json['errorMessage']
 
-    error = event['error']
-
-    if error == "Failed to check balance":  # No further action is required
+    if message == "Failed to check balance":  # No further action is required
         return
 
     elif error == "Insufficient balance":  # No further action is required
-        return
+        message
 
-    elif error == "Failed to withdraw money":
-        account_id = event['source_account']
+    elif message == "Failed to withdraw money":
+        account_id = "23920983"
         amount = event['amount']
         rollback_withdrawal(account_id, amount)
 
-    elif error == "Failed to deposit money":
-        account_id = event['destination_account']
+    elif message == "Failed to deposit money":
+        account_id = "23920983"
         amount = event['amount']
-
-    rollback_deposit(account_id, amount)
+        rollback_withdrawal(account_id, amount)
 
 
 def lambda_handler(event, context):

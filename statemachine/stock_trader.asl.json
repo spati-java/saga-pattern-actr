@@ -27,24 +27,14 @@
         "Withdraw Money": {
             "Type": "Task",
             "Resource": "${WithdrawalServiceFunctionArn}",
-            "Retry": [
-                {
-                    "ErrorEquals": [
-                        "States.TaskFailed"
-                    ],
-                    "IntervalSeconds": 2,
-                    "MaxAttempts": 3,
-                    "BackoffRate": 1
-                }
-            ],
-            "Next": "Deposit Money",
             "Catch": [
                 {
-                    "ErrorEquals": ["Lambda.ServiceException"],
+                    "ErrorEquals": ["States.ALL"],
                     "ResultPath": "$.error",
                     "Next": "Compensation"
                 }
-            ]
+            ],
+            "Next": "Deposit Money"
         },
         "Deposit Money": {
             "Type": "Task",
@@ -61,7 +51,7 @@
             ],
             "Catch": [
                 {
-                    "ErrorEquals": ["Lambda.ServiceException"],
+                    "ErrorEquals": ["States.ALL"],
                     "ResultPath": "$.error",
                     "Next": "Compensation"
                 }
