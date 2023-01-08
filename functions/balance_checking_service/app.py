@@ -1,9 +1,20 @@
 from datetime import datetime
-from random import randint
+import boto3
 from uuid import uuid4
 
+dynamodb = boto3.resource('dynamodb')
 
-def lambda_handler(event, context):
+TABLE_NAME = 'saga-pattern-example-account-balance-transfer-TransactionTable-UL85DR1JV3TB'
+
+
+def fetch_amount(event, context):
+    table = dynamodb.Table(TABLE_NAME)
+    response = table.get_item(Key={'Id': event['source_account']})
+    item = response['Item']
+    return item['amount']
+
+
+def check_balance(event, context):
     source_account = event["source_account"]
     amount_to_transfer = event["amount"]
     destination_account = event["destination_account"]
@@ -14,7 +25,7 @@ def lambda_handler(event, context):
     if response_status != 200:
         raise Exception("Failed to check balance")
 
-    balance = 300
+    balance = fetch_amount(event, context)
 
     if balance < int(amount_to_transfer):
         raise Exception("Insufficient Balance")
@@ -29,3 +40,7 @@ def lambda_handler(event, context):
     }
 
     return transfer_request_event
+
+
+def lambda_handler(event, context):
+    return check_balance(event, context)

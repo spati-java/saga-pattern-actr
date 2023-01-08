@@ -1,12 +1,12 @@
 {
   "id": "7a0ab0c3-9fa2-44c3-bc22-f6d477be6857",
-  "amount": "100",
+  "amount": 100,
   "destination_account": "12346",
   "source_account": "12345",
   "timestamp": "2023-01-06T14:28:16.012347",
   "status": "200",
   "error": {
     "Error": "Exception",
-    "Cause": "{\"errorMessage\": \"Failed to withdraw money\", \"errorType\": \"Exception\", \"requestId\": \"b68cd3f3-2dc1-4189-b881-fff88f0c7a81\", \"stackTrace\": [\"  File \\\"/var/task/app.py\\\", line 15, in lambda_handler\\n    raise Exception('Failed to withdraw money')\\n\"]}"
+    "Cause": "{\"errorMessage\": \"Failed to deposit money\", \"errorType\": \"Exception\", \"requestId\": \"b68cd3f3-2dc1-4189-b881-fff88f0c7a81\", \"stackTrace\": [\"  File \\\"/var/task/app.py\\\", line 15, in lambda_handler\\n    raise Exception('Failed to withdraw money')\\n\"]}"
   }
 }
