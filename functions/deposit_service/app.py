@@ -19,7 +19,7 @@ def fetch_amount(event, context):
 def store_amount(event, context):
     table = dynamodb.Table(DESTINATION_TABLE_NAME)
     amount = event['amount']
-    new_balance = amount + fetch_amount(event, context)
+    new_balance = int(amount) + fetch_amount(event, context)
     Id = event['destination_account']
     response = table.put_item(
         Item={
@@ -40,7 +40,7 @@ def lambda_handler(event, context):
     store_amount(event, context)
     transfer_request_event = {
         "id": id,
-        "amount": str(amount),
+        "amount": amount,
         "destination_account": str(destination_account),
         "timestamp": event['timestamp'],
         "status": response_status,

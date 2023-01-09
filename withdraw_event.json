@@ -1,8 +1,8 @@
 {
   "id": "cef02353-537d-4e70-a6a2-7ecc11d42287",
-  "amount": "200",
+  "amount": 50,
   "destination_account": "12346",
-   "source_account": "1234",
+   "source_account": "12345",
   "timestamp": "2023-01-05T14:55:46.147763",
   "status": "200"
 }

@@ -74,6 +74,9 @@ Resources:
       Runtime: python3.9
       Architectures:
         - x86_64
+      Policies:
+        # Give the Lambda service access to poll your DynamoDB Stream
+        - AmazonDynamoDBFullAccess
 
   DepositServiceFunction:
     Type: AWS::Serverless::Function
@@ -83,6 +86,9 @@ Resources:
       Runtime: python3.9
       Architectures:
         - x86_64
+      Policies:
+        # Give the Lambda service access to poll your DynamoDB Stream
+        - AmazonDynamoDBFullAccess
   ChaseBank:
     Type: AWS::Serverless::Function
     Properties:

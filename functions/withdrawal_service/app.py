@@ -7,7 +7,7 @@ from uuid import uuid4
 
 dynamodb = boto3.resource('dynamodb')
 
-SOURCE_TABLE_NAME = 'saga-pattern-example-account-balance-transfer-ChaseBankTable-WVV8N378S236'
+SOURCE_TABLE_NAME = 'saga-pattern-example-account-balance-transfer-ChaseBankTable-S5Y10F6Z79ZT'
 
 
 def fetch_amount(event, context):
@@ -51,10 +51,10 @@ def lambda_handler(event, context):
     store_amount(event, context)
     transfer_request_event = {
         "id": event['id'],
-        "amount": str(amount_to_transfer),
+        "amount": amount_to_transfer,
         "destination_account": str(destination_account),
         "timestamp": event['timestamp'],
-        "status": response_status
+        "status": str(response_status)
     }
 
     return transfer_request_event

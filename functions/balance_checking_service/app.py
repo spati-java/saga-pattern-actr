@@ -33,7 +33,7 @@ def check_balance(event, context):
 
     transfer_request_event = {
         "id": str(uuid4()),
-        "amount": str(amount_to_transfer),
+        "amount": amount_to_transfer,
         "destination_account": str(destination_account),
         "source_account": str(source_account),
         "timestamp": datetime.now().isoformat(),
