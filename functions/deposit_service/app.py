@@ -6,7 +6,7 @@ from uuid import uuid4
 
 dynamodb = boto3.resource('dynamodb')
 
-DESTINATION_TABLE_NAME = 'saga-pattern-example-account-balance-transfer-BankOfAmericaTable-KPM5TXOINNJW'
+DESTINATION_TABLE_NAME = 'saga-pattern-example-account-balance-transfer-BankOfAmericaTable-1IRU241ZT1Q1B'
 
 
 def fetch_amount(event, context):
@@ -19,7 +19,7 @@ def fetch_amount(event, context):
 def store_amount(event, context):
     table = dynamodb.Table(DESTINATION_TABLE_NAME)
     amount = event['amount']
-    new_balance = amount + fetch_amount(event , context)
+    new_balance = amount + fetch_amount(event, context)
     Id = event['destination_account']
     response = table.put_item(
         Item={
@@ -36,8 +36,8 @@ def lambda_handler(event, context):
     response_status = 200
     if response_status != 200:
         raise Exception("Failed to deposit money")
-
-    store_amount(event,context)
+    # deposit money
+    store_amount(event, context)
     transfer_request_event = {
         "id": id,
         "amount": str(amount),

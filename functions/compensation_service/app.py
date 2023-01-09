@@ -6,7 +6,7 @@ import boto3
 import json
 
 dynamodb = boto3.resource('dynamodb')
-SOURCE_TABLE_NAME = 'saga-pattern-example-account-balance-transfer-TransactionTable-UL85DR1JV3TB'
+SOURCE_TABLE_NAME = 'saga-pattern-example-account-balance-transfer-ChaseBankTable-S5Y10F6Z79ZT'
 
 
 def fetch_amount(event, context):

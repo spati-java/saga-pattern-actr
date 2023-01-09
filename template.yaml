@@ -16,7 +16,7 @@ Resources:
   BalanceTransferMachine:
     Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
     Properties:
-      DefinitionUri: statemachine/stock_trader.asl.json
+      DefinitionUri: statemachine/balance_transfer.asl.json
       DefinitionSubstitutions:
         BalanceCheckingServiceFunctionArn: !GetAtt BalanceCheckingServiceFunction.Arn
         WithdrawalServiceFunctionArn: !GetAtt WithdrawalServiceFunction.Arn
@@ -24,7 +24,9 @@ Resources:
         CompensationServiceFunctionArn: !GetAtt CompensationServiceFunction.Arn
         ChaseBankArn: !GetAtt ChaseBank.Arn
         DDBPutItem: !Sub arn:${AWS::Partition}:states:::dynamodb:putItem
-        DDBTable: !Ref TransactionTable
+        DDBGetItem: !Sub arn:${AWS::Partition}:states:::dynamodb:getItem
+        DDBTable: !Ref ChaseBankTable
+
       Events:
         HourlyTradingSchedule:
           Type: Schedule # More info about Schedule Event Source: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-statemachine-schedule.html
@@ -44,8 +46,12 @@ Resources:
         - LambdaInvokePolicy:
             FunctionName: !Ref ChaseBank
         - DynamoDBWritePolicy:
-            TableName: !Ref TransactionTable
+            TableName: !Ref ChaseBankTable
         - DynamoDBWritePolicy:
+            TableName: !Ref BankOfAmericaTable
+        - DynamoDBReadPolicy:
+            TableName: !Ref ChaseBankTable
+        - DynamoDBReadPolicy:
             TableName: !Ref BankOfAmericaTable
 
   BalanceCheckingServiceFunction:
@@ -56,6 +62,9 @@ Resources:
       Runtime: python3.9
       Architectures:
         - x86_64
+      Policies:
+        # Give the Lambda service access to poll your DynamoDB Stream
+        - AmazonDynamoDBFullAccess
 
   WithdrawalServiceFunction:
     Type: AWS::Serverless::Function
@@ -82,6 +91,9 @@ Resources:
       Runtime: python3.9
       Architectures:
         - x86_64
+      Policies:
+        # Give the Lambda service access to poll your DynamoDB Stream
+        - AmazonDynamoDBFullAccess
 
   CompensationServiceFunction:
     Type: AWS::Serverless::Function
@@ -91,8 +103,11 @@ Resources:
       Runtime: python3.9
       Architectures:
         - x86_64
+    Policies:
+      # Give the Lambda service access to poll your DynamoDB Stream
+      - AmazonDynamoDBFullAccess
 
-  TransactionTable:
+  ChaseBankTable:
     Type: AWS::Serverless::SimpleTable # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html
     Properties:
       PrimaryKey:

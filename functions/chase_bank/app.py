@@ -2,13 +2,13 @@ import boto3
 
 dynamodb = boto3.resource('dynamodb')
 
-SOURCE_TABLE_NAME = 'saga-pattern-example-account-balance-transfer-TransactionTable-UL85DR1JV3TB'
+SOURCE_TABLE_NAME = 'saga-pattern-example-account-balance-transfer-ChaseBankTable-S5Y10F6Z79ZT'
 
-DESTINATION_TABLE_NAME = 'saga-pattern-example-account-balance-transfer-BankOfAmericaTable-KPM5TXOINNJW'
+DESTINATION_TABLE_NAME = 'saga-pattern-example-account-balance-transfer-BankOfAmericaTable-1IRU241ZT1Q1B'
 
 
 def store_amount(event, context):
-    table = dynamodb.Table(DESTINATION_TABLE_NAME)
+    table = dynamodb.Table(SOURCE_TABLE_NAME)
     amount = event['amount']
     Id = event['source_account']
     response = table.put_item(
@@ -30,5 +30,7 @@ def lambda_handler(event, context):
     event_type = event['type']
     if event_type == 'store':
         store_amount(event, context)
-    print(fetch_amount(event, context))
-    return fetch_amount(event, context)
+    else:
+        fetch_amount(event, context)
+        print(fetch_amount(event, context))
+    return "SUCCESS"

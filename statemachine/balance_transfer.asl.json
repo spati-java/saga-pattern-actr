@@ -10,8 +10,8 @@
                     "ErrorEquals": [
                         "States.TaskFailed"
                     ],
-                    "IntervalSeconds": 15,
-                    "MaxAttempts": 5,
+                    "IntervalSeconds": 5,
+                    "MaxAttempts": 1,
                     "BackoffRate": 1.5
                 }
             ],

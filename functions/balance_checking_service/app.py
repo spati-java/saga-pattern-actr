@@ -4,12 +4,13 @@ from uuid import uuid4
 
 dynamodb = boto3.resource('dynamodb')
 
-TABLE_NAME = 'saga-pattern-example-account-balance-transfer-TransactionTable-UL85DR1JV3TB'
+TABLE_NAME = 'saga-pattern-example-account-balance-transfer-ChaseBankTable-S5Y10F6Z79ZT'
 
 
-def fetch_amount(event, context):
+def fetch_amount(source_account):
     table = dynamodb.Table(TABLE_NAME)
-    response = table.get_item(Key={'Id': event['source_account']})
+    print('source account id ', source_account)
+    response = table.get_item(Key={'Id': source_account})
     item = response['Item']
     return item['amount']
 
@@ -25,7 +26,7 @@ def check_balance(event, context):
     if response_status != 200:
         raise Exception("Failed to check balance")
 
-    balance = fetch_amount(event, context)
+    balance = fetch_amount(source_account)
 
     if balance < int(amount_to_transfer):
         raise Exception("Insufficient Balance")
