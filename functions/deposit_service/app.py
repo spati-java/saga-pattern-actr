@@ -33,7 +33,7 @@ def lambda_handler(event, context):
     destination_account = event["destination_account"]
     amount = event["amount"]
 
-    response_status = 300
+    response_status = 200
     if response_status != 200:
         raise Exception("Failed to deposit money")
     # deposit money

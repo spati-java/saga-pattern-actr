@@ -25,7 +25,7 @@ Resources:
         ChaseBankArn: !GetAtt ChaseBank.Arn
         DDBPutItem: !Sub arn:${AWS::Partition}:states:::dynamodb:putItem
         DDBGetItem: !Sub arn:${AWS::Partition}:states:::dynamodb:getItem
-        DDBTable: ChaseBankTable
+        DDBTable: !Ref ChaseBankTable
 
       Events:
         HourlyTradingSchedule:
@@ -46,13 +46,13 @@ Resources:
         - LambdaInvokePolicy:
             FunctionName: !Ref ChaseBank
         - DynamoDBWritePolicy:
-            TableName: ChaseBankTable
+            TableName: !Ref ChaseBankTable
         - DynamoDBWritePolicy:
-            TableName:  BankOfAmericaTable
+            TableName:  !Ref BankOfAmericaTable
         - DynamoDBReadPolicy:
-            TableName: ChaseBankTable
+            TableName: !Ref ChaseBankTable
         - DynamoDBReadPolicy:
-            TableName: BankOfAmericaTable
+            TableName: !Ref BankOfAmericaTable
 
   BalanceCheckingServiceFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
