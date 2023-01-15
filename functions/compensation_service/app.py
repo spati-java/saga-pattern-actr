@@ -64,7 +64,8 @@ def compensation(event, context):
         rollback_amount = current_balance + amount
         print('amount to be roll back', rollback_amount)
         rollback_withdrawal(account_id, rollback_amount)
+        return {"message": "Money returned to the source account due to a failure"}
 
 
 def lambda_handler(event, context):
-    compensation(event, context)
+    return compensation(event, context)

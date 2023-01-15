@@ -22,7 +22,7 @@ def store_amount(event, context):
     amount = event['amount']
     current_balance = fetch_amount(event, context)
     print('current balance', current_balance)
-    new_balance = amount + current_balance
+    new_balance = current_balance - amount
     print('current balance', new_balance)
 
     Id = event['source_account']
@@ -53,6 +53,7 @@ def lambda_handler(event, context):
         "id": event['id'],
         "amount": amount_to_transfer,
         "destination_account": str(destination_account),
+        "source_account": str(source_account),
         "timestamp": event['timestamp'],
         "status": str(response_status)
     }

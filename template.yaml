@@ -25,7 +25,7 @@ Resources:
         ChaseBankArn: !GetAtt ChaseBank.Arn
         DDBPutItem: !Sub arn:${AWS::Partition}:states:::dynamodb:putItem
         DDBGetItem: !Sub arn:${AWS::Partition}:states:::dynamodb:getItem
-        DDBTable: !Ref ChaseBankTable
+        DDBTable: ChaseBankTable
 
       Events:
         HourlyTradingSchedule:
@@ -46,13 +46,13 @@ Resources:
         - LambdaInvokePolicy:
             FunctionName: !Ref ChaseBank
         - DynamoDBWritePolicy:
-            TableName: !Ref ChaseBankTable
+            TableName: ChaseBankTable
         - DynamoDBWritePolicy:
-            TableName: !Ref BankOfAmericaTable
+            TableName:  BankOfAmericaTable
         - DynamoDBReadPolicy:
-            TableName: !Ref ChaseBankTable
+            TableName: ChaseBankTable
         - DynamoDBReadPolicy:
-            TableName: !Ref BankOfAmericaTable
+            TableName: BankOfAmericaTable
 
   BalanceCheckingServiceFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
@@ -109,9 +109,9 @@ Resources:
       Runtime: python3.9
       Architectures:
         - x86_64
-    Policies:
-      # Give the Lambda service access to poll your DynamoDB Stream
-      - AmazonDynamoDBFullAccess
+      Policies:
+        # Give the Lambda service access to poll your DynamoDB Stream
+        - AmazonDynamoDBFullAccess
 
   ChaseBankTable:
     Type: AWS::Serverless::SimpleTable # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html

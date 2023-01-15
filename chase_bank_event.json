@@ -1,5 +1,5 @@
 {
-  "amount": 300,
+  "amount": 10000,
   "type": "store",
-  "source_account": "12346"
+  "source_account": "12345"
 }

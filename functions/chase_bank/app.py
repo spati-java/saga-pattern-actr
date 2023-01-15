@@ -2,7 +2,7 @@ import boto3
 
 dynamodb = boto3.resource('dynamodb')
 
-SOURCE_TABLE_NAME = 'saga-pattern-example-account-balance-transfer-ChaseBankTable-S5Y10F6Z79ZT'
+SOURCE_TABLE_NAME = 'ChaseBankTable'
 
 DESTINATION_TABLE_NAME = 'saga-pattern-example-account-balance-transfer-BankOfAmericaTable-1IRU241ZT1Q1B'
 

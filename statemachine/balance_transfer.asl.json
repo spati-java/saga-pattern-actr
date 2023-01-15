@@ -18,7 +18,7 @@
             "Next": "Withdraw Money",
             "Catch": [
                 {
-                    "ErrorEquals": ["Lambda.ServiceException"],
+                    "ErrorEquals": ["States.ALL"],
                     "ResultPath": "$.error",
                     "Next": "Compensation"
                 }
